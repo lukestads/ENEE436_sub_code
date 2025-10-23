@@ -1,30 +1,35 @@
-# ...existing code...
+# Full corrected Python script using BOARD numbering
 import RPi.GPIO as GPIO
 import time
 
-# --- Pin Definitions (using BCM numbering) ---
-IN1 = 17  # Motor 1 Input A (BCM)
-IN2 = 27  # Motor 1 Input B (BCM)
-IN3 = 22  # Motor 2 Input A (BCM)
-IN4 = 23  # Motor 2 Input B (BCM)
+# --- Pin Definitions (using BOARD physical numbering) ---
+# CORRECTED: Pins are now unique for each motor input.
+IN1 = 11  # Was BCM 17
+IN2 = 13  # Was BCM 27
+IN3 = 15  # Was BCM 22
+IN4 = 16  # Was BCM 23
+EN = 18   # Was BCM 24
 
-EN = 24   # Enable for motor pair 1 (BCM)
+IN1_2 = 29  # Was BCM 5
+IN2_2 = 31  # Was BCM 6
+IN3_2 = 33  # Was BCM 13
+IN4_2 = 37  # Was BCM 26
+EN_2 = 36   # Was BCM 16
 
-IN1_2 = 5   # Motor 3 Input A (BCM)
-IN2_2 = 6   # Motor 3 Input B (BCM)
-IN3_2 = 13  # Motor 4 Input A (BCM)
-IN4_2 = 26  # Motor 4 Input B (BCM)
-EN_2 = 16   # Enable for motor pair 2 (BCM)
+#sen_1 = 19
+#sen_2 = 21
 
 # --- GPIO Setup ---
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)  # Use BCM numbering (matches the pin constants above)
+GPIO.setmode(GPIO.BOARD)
 
 ALL_PINS = [IN1, IN2, IN3, IN4, EN, IN1_2, IN2_2, IN3_2, IN4_2, EN_2]
 
+# Set up all pins as outputs and initialize them to LOW
 for p in ALL_PINS:
     GPIO.setup(p, GPIO.OUT)
-    GPIO.output(p, GPIO.LOW)  # initialize outputs low
+    GPIO.output(p, GPIO.LOW)
+
 
 MOTOR1_PINS = [IN1, IN2, IN3, IN4, EN]
 MOTOR2_PINS = [IN1_2, IN2_2, IN3_2, IN4_2, EN_2]
@@ -98,7 +103,7 @@ def print_menu():
     print("q: Quit")
     print("==========================")
 
-# --- Main Loop (Corrected Logic) ---
+# --- Main Loop ---
 try:
     while True:
         print_menu()
@@ -116,7 +121,7 @@ try:
 
         elif choice == 'a':
             TurnLeft()
-            time.sleep(2) 
+            time.sleep(2)
             StopMotors()
 
         elif choice == 'd':
@@ -139,7 +144,7 @@ try:
             StopMotors_2()
             print("Exiting program.")
             break
-            
+
         else:
             print("Invalid input!")
 
